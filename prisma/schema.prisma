@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Patient {
+  id              String    @id @default(uuid())
+  name            String
+  email           String    @unique
+  password_hash   String
+  phone           String?
+  date_of_birth   DateTime?
+  health_problems String?
+  medications     String?
+  created_at      DateTime  @default(now())
+
+  glucoseValues             GlucoseValue[]
+  PatientHealthProfessional PatientProfessionalConexion[]
+
+  @@map("patients")
+}
+
+model HealthProfessional {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  phone         String?
+  specialty     String?
+  office_adress String?
+  created_at    DateTime @default(now())
+
+  PatientHealthProfessional PatientProfessionalConexion[]
+
+  @@map("health_professionals")
+}
+
+model PatientProfessionalConexion {
+  patient                Patient            @relation(fields: [patient_id], references: [id])
+  patient_id             String
+  healthProfessional     HealthProfessional @relation(fields: [health_professional_id], references: [id])
+  health_professional_id String
+  created_at             DateTime           @default(now())
+
+  @@id([patient_id, health_professional_id])
+  @@map("patient_professional_conexions")
+}
+
+enum MeasurementCharacteristic {
+  FASTING
+  PREPRANDIAL
+  POSTPRANDIAL
+}
+
+model GlucoseValue {
+  id                         String                    @id @default(uuid())
+  value                      String
+  measurement_time           DateTime                  @default(now())
+  measurement_characteristic MeasurementCharacteristic @default(FASTING)
+  observations               String?
+
+  patient    Patient @relation(fields: [patient_id], references: [id])
+  patient_id String
+
+  @@map("glucose_values")
+}

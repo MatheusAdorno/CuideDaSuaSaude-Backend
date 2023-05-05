@@ -1,9 +1,8 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
-import { RegisterService } from '@/services/register-health-professional'
-import { PrismaHealthProfessionalRepository } from '@/repositories/prisma/prisma-health-professionals-repository'
 import { HealthProfessionalAlreadyExistsError } from '@/services/errors/health-professional/health-professional-already-exists-error'
+import { makeRegisterHealthProfessionalService } from '@/services/factories/make-register-health-professional-service'
 
 export async function registerHealthProfessional(
   request: FastifyRequest,
@@ -18,9 +17,7 @@ export async function registerHealthProfessional(
   const { name, email, password } = registerBodySchema.parse(request.body)
 
   try {
-    const healthProfessionalsRepository =
-      new PrismaHealthProfessionalRepository()
-    const registerService = new RegisterService(healthProfessionalsRepository)
+    const registerService = makeRegisterHealthProfessionalService()
 
     await registerService.execute({
       name,

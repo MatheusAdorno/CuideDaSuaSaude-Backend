@@ -7,8 +7,8 @@ import { authenticateHealthProfessional } from './controllers/authenticate-healt
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/patients', registerPatient)
-  app.post('/patients-sessions', authenticatePatient)
+  app.post('/patients_sessions', authenticatePatient)
 
   app.post('/health_professionals', registerHealthProfessional)
-  app.post('/health_professionals-sessions', authenticateHealthProfessional)
+  app.post('/health_professionals_sessions', authenticateHealthProfessional)
 }

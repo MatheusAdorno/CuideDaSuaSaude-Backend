@@ -1,14 +1,19 @@
-import { expect, describe, it } from 'vitest'
+import { expect, describe, it, beforeEach } from 'vitest'
 import { RegisterService } from './register-patient'
 import { compare } from 'bcryptjs'
 import { InMemoryPatientsRepository } from '@/repositories/in-memory/in-memory-patients-repository'
 import { PatientAlreadyExistsError } from './errors/patient/patient-already-exists-error'
 
-describe('Register Patient Service', () => {
-  it('should be able to register', async () => {
-    const patientsRepository = new InMemoryPatientsRepository()
-    const registerPatientService = new RegisterService(patientsRepository)
+let patientsRepository: InMemoryPatientsRepository
+let registerPatientService: RegisterService
 
+describe('Register Patient Service', () => {
+  beforeEach(() => {
+    patientsRepository = new InMemoryPatientsRepository()
+    registerPatientService = new RegisterService(patientsRepository)
+  })
+
+  it('should be able to register', async () => {
     const { patient } = await registerPatientService.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -19,9 +24,6 @@ describe('Register Patient Service', () => {
   })
 
   it('should hash patient password upon registration', async () => {
-    const patientsRepository = new InMemoryPatientsRepository()
-    const registerPatientService = new RegisterService(patientsRepository)
-
     const { patient } = await registerPatientService.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -37,9 +39,6 @@ describe('Register Patient Service', () => {
   })
 
   it('should not be able to register a patient with same email', async () => {
-    const patientsRepository = new InMemoryPatientsRepository()
-    const registerPatientService = new RegisterService(patientsRepository)
-
     const email = 'johndoe@example.com'
 
     await registerPatientService.execute({

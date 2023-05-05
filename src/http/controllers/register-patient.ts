@@ -31,7 +31,7 @@ export async function registerPatient(
       return reply.status(409).send({ message: err.message })
     }
 
-    throw err
+    return reply.status(500).send() // TODO: fix me  }
   }
 
   return reply.status(201).send()

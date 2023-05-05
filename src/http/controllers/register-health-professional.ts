@@ -34,4 +34,6 @@ export async function registerHealthProfessional(
 
     return reply.status(500).send() // TODO: fix me  }
   }
+
+  return reply.status(201).send()
 }

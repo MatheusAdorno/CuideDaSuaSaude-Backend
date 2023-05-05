@@ -2,11 +2,16 @@ import { hash } from 'bcryptjs'
 
 import { HealthProfessionalsRepository } from '@/repositories/health-professionals-repository'
 import { HealthProfessionalAlreadyExistsError } from './errors/health-professional/health-professional-already-exists-error'
+import { HealthProfessional } from '@prisma/client'
 
 interface registerHealthProfessionalServiceRequest {
   name: string
   email: string
   password: string
+}
+
+interface RegisterHealthProfessionalServiceResponse {
+  healthProfessional: HealthProfessional
 }
 
 export class RegisterService {
@@ -18,7 +23,7 @@ export class RegisterService {
     name,
     email,
     password,
-  }: registerHealthProfessionalServiceRequest) {
+  }: registerHealthProfessionalServiceRequest): Promise<RegisterHealthProfessionalServiceResponse> {
     const password_hash = await hash(password, 6)
 
     const healthProfessionalWithSameEmail =
@@ -28,10 +33,14 @@ export class RegisterService {
       throw new HealthProfessionalAlreadyExistsError()
     }
 
-    await this.healthProfessionalRepository.create({
+    const healthProfessional = await this.healthProfessionalRepository.create({
       name,
       email,
       password_hash,
     })
+
+    return {
+      healthProfessional,
+    }
   }
 }

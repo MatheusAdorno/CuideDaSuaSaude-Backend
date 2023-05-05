@@ -2,6 +2,7 @@ import { hash } from 'bcryptjs'
 
 import { PatientsRepository } from '@/repositories/patients-repository'
 import { PatientAlreadyExistsError } from './errors/patient/patient-already-exists-error'
+import { Patient } from '@prisma/client'
 
 interface registerPatientServiceRequest {
   name: string
@@ -9,10 +10,18 @@ interface registerPatientServiceRequest {
   password: string
 }
 
+interface RegisterPatientServiceResponse {
+  patient: Patient
+}
+
 export class RegisterService {
   constructor(private patientsRepository: PatientsRepository) {}
 
-  async execute({ name, email, password }: registerPatientServiceRequest) {
+  async execute({
+    name,
+    email,
+    password,
+  }: registerPatientServiceRequest): Promise<RegisterPatientServiceResponse> {
     const password_hash = await hash(password, 6)
 
     const patientWithSameEmail = await this.patientsRepository.findByEmail(
@@ -23,10 +32,14 @@ export class RegisterService {
       throw new PatientAlreadyExistsError()
     }
 
-    await this.patientsRepository.create({
+    const patient = await this.patientsRepository.create({
       name,
       email,
       password_hash,
     })
+
+    return {
+      patient,
+    }
   }
 }

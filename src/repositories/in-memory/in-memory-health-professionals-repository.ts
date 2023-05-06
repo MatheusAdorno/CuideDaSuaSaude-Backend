@@ -1,5 +1,6 @@
 import { HealthProfessional, Prisma } from '@prisma/client'
 import { HealthProfessionalsRepository } from '../health-professionals-repository'
+import { randomUUID } from 'node:crypto'
 
 export class InMemoryHealthProfessionalsRepository
   implements HealthProfessionalsRepository
@@ -28,7 +29,7 @@ export class InMemoryHealthProfessionalsRepository
 
   async create(data: Prisma.HealthProfessionalCreateInput) {
     const healthProfessional = {
-      id: 'user-1',
+      id: randomUUID(),
       name: data.name,
       email: data.email,
       password_hash: data.password_hash,

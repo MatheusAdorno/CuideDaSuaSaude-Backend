@@ -43,11 +43,13 @@ model HealthProfessional {
 }
 
 model PatientProfessionalConexion {
-  patient                Patient            @relation(fields: [patient_id], references: [id])
-  patient_id             String
+  patient    Patient @relation(fields: [patient_id], references: [id])
+  patient_id String
+
   healthProfessional     HealthProfessional @relation(fields: [health_professional_id], references: [id])
   health_professional_id String
-  created_at             DateTime           @default(now())
+
+  created_at DateTime @default(now())
 
   @@id([patient_id, health_professional_id])
   @@map("patient_professional_conexions")

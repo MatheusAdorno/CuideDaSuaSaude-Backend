@@ -1,5 +1,6 @@
 import { Patient, Prisma } from '@prisma/client'
 import { PatientsRepository } from '../patients-repository'
+import { randomUUID } from 'node:crypto'
 
 export class InMemoryPatientsRepository implements PatientsRepository {
   public items: Patient[] = []
@@ -26,7 +27,7 @@ export class InMemoryPatientsRepository implements PatientsRepository {
 
   async create(data: Prisma.PatientCreateInput) {
     const patient = {
-      id: 'user-1',
+      id: randomUUID(),
       name: data.name,
       email: data.email,
       password_hash: data.password_hash,

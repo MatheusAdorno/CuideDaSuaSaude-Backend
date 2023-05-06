@@ -4,6 +4,16 @@ import { PatientsRepository } from '../patients-repository'
 export class InMemoryPatientsRepository implements PatientsRepository {
   public items: Patient[] = []
 
+  async findById(id: string) {
+    const patient = this.items.find((item) => item.id === id)
+
+    if (!patient) {
+      return null
+    }
+
+    return patient
+  }
+
   async findByEmail(email: string) {
     const patient = this.items.find((item) => item.email === email)
 

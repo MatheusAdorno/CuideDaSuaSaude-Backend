@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { HealthProfessional, Prisma } from '@prisma/client'
 
 import { prisma } from '@/lib/prisma'
 import { HealthProfessionalsRepository } from '../health-professionals-repository'
@@ -6,6 +6,10 @@ import { HealthProfessionalsRepository } from '../health-professionals-repositor
 export class PrismaHealthProfessionalRepository
   implements HealthProfessionalsRepository
 {
+  findById(id: string): Promise<HealthProfessional | null> {
+    throw new Error('Method not implemented.')
+  }
+
   async findByEmail(email: string) {
     const healthProfessional = await prisma.healthProfessional.findUnique({
       where: {

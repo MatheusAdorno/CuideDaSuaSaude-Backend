@@ -2,8 +2,7 @@ import { PatientProfessionalConexion, Prisma } from '@prisma/client'
 import { PatientProfessionalConexionsRepository } from '../patient-professional-conexions-repository'
 
 export class InMemoryPatientProfessionalConexionsRepository
-  implements PatientProfessionalConexionsRepository
-{
+  implements PatientProfessionalConexionsRepository {
   public items: PatientProfessionalConexion[] = []
 
   async create(data: Prisma.PatientProfessionalConexionUncheckedCreateInput) {

@@ -18,6 +18,16 @@ export class PrismaPatientsRepository implements PatientsRepository {
     return patient
   }
 
+  async findProfessionalsFromPatientEmail(id: string) {
+    const patient = await prisma.patient.findMany({
+      where: {
+        // health_professional_id: id,
+      },
+    })
+
+    return patient
+  }
+
   async create(data: Prisma.PatientCreateInput) {
     const patient = await prisma.patient.create({
       data,

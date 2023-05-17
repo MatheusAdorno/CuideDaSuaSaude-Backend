@@ -4,8 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { HealthProfessionalsRepository } from '../health-professionals-repository'
 
 export class PrismaHealthProfessionalRepository
-  implements HealthProfessionalsRepository
-{
+  implements HealthProfessionalsRepository {
   findById(id: string): Promise<HealthProfessional | null> {
     throw new Error('Method not implemented.')
   }
@@ -19,6 +18,16 @@ export class PrismaHealthProfessionalRepository
 
     return healthProfessional
   }
+
+  // async findByPatientEmail(email: string) {
+  //   const healthProfessional = await prisma.healthProfessional.findMany({
+  //     where: {
+  //       PatientHealthProfessional: email,
+  //     },
+  //   })
+
+  //   return healthProfessional
+  // }
 
   async create(data: Prisma.HealthProfessionalCreateInput) {
     const healthProfessional = await prisma.healthProfessional.create({

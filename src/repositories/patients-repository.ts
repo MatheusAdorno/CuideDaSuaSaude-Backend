@@ -1,4 +1,4 @@
-import { Patient, Prisma } from '@prisma/client'
+import { HealthProfessional, Patient, Prisma } from '@prisma/client'
 
 export interface PatientsRepository {
   findById(id: string): Promise<Patient | null>

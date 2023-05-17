@@ -4,6 +4,7 @@ import { registerPatient } from './controllers/register-patient'
 import { registerHealthProfessional } from './controllers/register-health-professional'
 import { authenticatePatient } from './controllers/authenticate-patient'
 import { authenticateHealthProfessional } from './controllers/authenticate-health-professional'
+import { registerDextro } from './controllers/register-dextro'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/patients', registerPatient)
@@ -11,4 +12,6 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.post('/health_professionals', registerHealthProfessional)
   app.post('/health_professionals_sessions', authenticateHealthProfessional)
+
+  app.post('/register-dextro', registerDextro)
 }

@@ -5,6 +5,8 @@ import { registerHealthProfessional } from './controllers/register-health-profes
 import { authenticatePatient } from './controllers/authenticate-patient'
 import { authenticateHealthProfessional } from './controllers/authenticate-health-professional'
 import { registerDextro } from './controllers/register-dextro'
+import { offsetDextro } from './controllers/offset-dextro'
+import { listDextros } from './controllers/list-dextros'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/patients', registerPatient)
@@ -14,4 +16,6 @@ export async function appRoutes(app: FastifyInstance) {
   app.post('/health_professionals_sessions', authenticateHealthProfessional)
 
   app.post('/register-dextro', registerDextro)
+  app.get('/get-offseted-dextros/:pacientId', offsetDextro)
+  app.get('/list-dextros', listDextros)
 }

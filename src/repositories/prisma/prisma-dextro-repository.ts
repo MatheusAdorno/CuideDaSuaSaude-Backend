@@ -15,7 +15,12 @@ export class PrismaDextrosRepository implements DextrosRepository {
     }
 
     async findByPatientId(id: string) {
-        throw new Error('Method not implemented.')
+        const dextro = await prisma.glucoseValue.findMany({
+            where: {
+                patient_id: id
+            }
+        })
+        return dextro;
     }
 
     async create(data: Prisma.GlucoseValueUncheckedCreateInput) {

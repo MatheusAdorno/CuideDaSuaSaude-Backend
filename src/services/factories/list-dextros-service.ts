@@ -2,8 +2,8 @@ import { PrismaDextrosRepository } from '@/repositories/prisma/prisma-dextro-rep
 import { GetListDextrosService } from '../list-dextros'
 
 export function getListDextrosService() {
-    const dextrosRepository = new PrismaDextrosRepository()
-    const listDextrosService = new GetListDextrosService(dextrosRepository)
+  const dextrosRepository = new PrismaDextrosRepository()
+  const listDextrosService = new GetListDextrosService(dextrosRepository)
 
-    return listDextrosService
+  return listDextrosService
 }

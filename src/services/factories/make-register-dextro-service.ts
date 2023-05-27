@@ -2,8 +2,8 @@ import { PrismaDextrosRepository } from '@/repositories/prisma/prisma-dextro-rep
 import { RegisterService } from '../register-dextro'
 
 export function makeRegisterDextroService() {
-    const dextrosRepository = new PrismaDextrosRepository()
-    const registerService = new RegisterService(dextrosRepository)
+  const dextrosRepository = new PrismaDextrosRepository()
+  const registerService = new RegisterService(dextrosRepository)
 
-    return registerService
+  return registerService
 }

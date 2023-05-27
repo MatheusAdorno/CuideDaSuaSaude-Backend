@@ -18,9 +18,22 @@ export async function authenticateHealthProfessional(
   try {
     const authenticateService = makeAuthenticateHealthProfessionalService()
 
-    await authenticateService.execute({
+    const { healthProfessional } = await authenticateService.execute({
       email,
       password,
+    })
+
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: healthProfessional.id,
+        },
+      },
+    )
+
+    return reply.status(200).send({
+      token,
     })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
@@ -29,6 +42,4 @@ export async function authenticateHealthProfessional(
 
     throw err
   }
-
-  return reply.status(200).send()
 }

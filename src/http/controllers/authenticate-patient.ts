@@ -18,9 +18,22 @@ export async function authenticatePatient(
   try {
     const authenticateService = makeAuthenticatePatientService()
 
-    await authenticateService.execute({
+    const { patient } = await authenticateService.execute({
       email,
       password,
+    })
+
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: patient.id,
+        },
+      },
+    )
+
+    return reply.status(200).send({
+      token,
     })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
@@ -29,6 +42,4 @@ export async function authenticatePatient(
 
     throw err
   }
-
-  return reply.status(200).send()
 }

@@ -7,6 +7,9 @@ import { authenticateHealthProfessional } from './controllers/authenticate-healt
 import { registerDextro } from './controllers/register-dextro'
 import { offsetDextro } from './controllers/offset-dextro'
 import { listDextros } from './controllers/list-dextros'
+import { profilePatient } from './controllers/profile-patient'
+import { profileHealthProfessional } from './controllers/profile-health-professional'
+import { verifyJWT } from './middlewares/verify-jwt'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/patients', registerPatient)
@@ -18,4 +21,12 @@ export async function appRoutes(app: FastifyInstance) {
   app.post('/register-dextro', registerDextro)
   app.get('/get-offseted-dextros/:pacientId', offsetDextro)
   app.get('/list-dextros', listDextros)
+
+  /** Authenticated **/
+  app.get('/me_patient', { onRequest: [verifyJWT] }, profilePatient)
+  app.get(
+    '/me_health_professional',
+    { onRequest: [verifyJWT] },
+    profileHealthProfessional,
+  )
 }
